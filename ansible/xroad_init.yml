@@ -1,13 +1,5 @@
 ---
-# This playbook initializes X-Road environment
-
-
-- hosts: lxd-servers
-  roles:
-    - role: init-lxd
-  tags:
-    - init
-    
+# Este inventario inicializa los servidores
 - hosts: ss-servers, cs-servers, cp-servers, ca-servers
   become: yes
   become_user: root
@@ -17,7 +9,8 @@
       raw: apt-get -y install python
   tags:
     - init
-    
+
+# Central Servrer
 - hosts: cs-servers
   become: yes
   become_user: root
@@ -34,6 +27,7 @@
   tags:
     - cp
 
+# Security Server y Central Server
 - hosts: ss-servers, cs-servers, cp-servers, ca-servers
   become: yes
   become_user: root
@@ -41,6 +35,7 @@
   pre_tasks:
     - raw: apt-get -y install python
 
+# Security Server
 - hosts: ss-servers
   become: yes
   become_user: root
@@ -48,7 +43,8 @@
     - xroad-ss
   tags:
     - ss
-    
+
+# Servidor CA
 - hosts: ca-servers
   become: yes
   become_user: root
